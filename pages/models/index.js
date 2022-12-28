@@ -203,9 +203,9 @@ export default function Index ({ preview, models }) {
     )
 }
 
-export async function getStaticProps (query) {
-    const models = await getAllByType('model', query.preview || false)
+export async function getStaticProps ({ preview = false }) {
+    const models = await getAllByType('model', preview)
     return {
-        props: { models, preview: query.preview || false },
+        props: { models, preview: preview },
     }
 }
