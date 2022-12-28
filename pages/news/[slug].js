@@ -2,12 +2,18 @@ import { getAllByType } from '../../lib/api'
 import ErrorPage from 'next/error'
 import { useRouter } from 'next/router'
 import SideLayout from '../../components/SideLayout'
+import Loading from '../../components/Loading'
+import ModelSizes from '../../components/ModelSizes'
 
 export default function News ({ preview = false, item = null }) {
 
     const router = useRouter()
 
-    if (!router.isFallback || !item) {
+    if (router.isFallback) {
+        return <Loading/>
+    }
+
+    if (!item) {
         return <ErrorPage statusCode={404}/>
     }
 
@@ -15,6 +21,7 @@ export default function News ({ preview = false, item = null }) {
                        images={[item.coverImage]}
                        title={item.title}
                        content={item.content}/>
+
 }
 
 export async function getStaticProps ({ params, preview = false }) {

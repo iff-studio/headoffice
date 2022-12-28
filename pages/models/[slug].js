@@ -3,13 +3,18 @@ import ErrorPage from 'next/error'
 import { useRouter } from 'next/router'
 import SideLayout from '../../components/SideLayout'
 import ModelSizes from '../../components/ModelSizes'
+import Loading from '../../components/Loading'
 
 export default function Model ({ preview, item }) {
 
     const router = useRouter()
 
-    if (!router.isFallback || !item) {
-        return <ErrorPage statusCode={404} />
+    if (router.isFallback) {
+        return <Loading/>
+    }
+
+    if (!item) {
+        return <ErrorPage statusCode={404}/>
     }
 
     return <SideLayout preview={preview}
@@ -19,6 +24,7 @@ export default function Model ({ preview, item }) {
                        content={item.bio}>
         <ModelSizes className={'border border-black p-4'} model={item}></ModelSizes>
     </SideLayout>
+
 }
 
 export async function getStaticProps ({ params, preview = false }) {
@@ -40,7 +46,7 @@ export async function getStaticProps ({ params, preview = false }) {
 
 export async function getStaticPaths () {
     const all = await getAllByType('model')
-    console.log(all?.map(({ slug }) => `/models/${slug}`) ?? [])
+
     return {
         paths: all?.map(({ slug }) => `/models/${slug}`) ?? [],
         fallback: true,
