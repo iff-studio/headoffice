@@ -3,3 +3,9 @@
 @tailwind components;
 /* purgecss end ignore */
 @tailwind utilities;
+
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+}
