@@ -3,11 +3,11 @@ import ErrorPage from 'next/error'
 import { useRouter } from 'next/router'
 import SideLayout from '../../components/SideLayout'
 
-export default function Index ({ preview, item }) {
+export default function News ({ preview = false, item = null }) {
 
     const router = useRouter()
 
-    if (!router.isFallback && !item) {
+    if (!router.isFallback || !item) {
         return <ErrorPage statusCode={404}/>
     }
 
@@ -16,7 +16,6 @@ export default function Index ({ preview, item }) {
                        title={item.title}
                        content={item.content}/>
 }
-
 
 export async function getStaticProps ({ params, preview = false }) {
 
@@ -37,7 +36,7 @@ export async function getStaticProps ({ params, preview = false }) {
 export async function getStaticPaths () {
     const all = await getAllByType('post')
     return {
-        paths: all?.map(({ slug }) => `/news/${slug}`) ?? [],
+        paths: all?.map(({ slug }) => {return { params: { slug: slug } }}) ?? [],
         fallback: true,
     }
 }

@@ -7,9 +7,8 @@ export default function Index ({ preview, item }) {
 
     const router = useRouter()
 
-    item = Object.assign(item);
-    if (!router.isFallback && !item) {
-        return <ErrorPage statusCode={404}/>
+    if (!router.isFallback || !item) {
+        return <ErrorPage statusCode={404} />
     }
 
     return <SideLayout preview={preview}

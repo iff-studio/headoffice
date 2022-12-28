@@ -188,7 +188,7 @@ export default function Index ({ preview, models }) {
                                 let { url, width, height } = model.mainImage
                                 return <Link href={`/models/${model.slug}`} key={key} className={'relative group'}>
                                     <ContentfulImage {...{ src: url, width, height, alt: '' }}/>
-                                    <h4 className="absolute p-4 px-2 bottom-0 right-0 left-0 bg-white/[.5] group-hover:bg-white/[.75]">
+                                    <h4 className="absolute p-4 bottom-0 right-0 left-0 bg-white/[.5] group-hover:bg-white/[.75]">
                                         <ModelSizes model={model} className="pb-4 hidden group-hover:block"/>
                                         {model.name}
                                     </h4>

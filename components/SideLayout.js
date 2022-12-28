@@ -12,6 +12,7 @@ export default function SideLayout ({
     title = '',
     galleryLayout = '',
     content = {},
+    bottom = null
 }) {
 
     metaTitle = metaTitle || `${title} ${META_TITLE_SUFFIX}`
@@ -33,10 +34,11 @@ export default function SideLayout ({
                     {content && <MarkdownContent content={content}></MarkdownContent>}
                 </div>
                 <div className="flex-1">
-                    {images.length && <Gallery images={images} galleryLayout={galleryLayout||''}></Gallery>}
+                    {images.length && <Gallery images={images} galleryLayout={galleryLayout || ''}></Gallery>}
                 </div>
 
             </div>
+            {bottom}
         </Layout>
     </>
 }
