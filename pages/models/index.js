@@ -167,7 +167,7 @@ export default function Index ({ preview, models }) {
                     <div className={'sm:w-[16rem]'}>
                         {mapObjectToArray(filters, (options, filterName) => {
                             return <div key={filterName} className="p-4">
-                                <h4 className={'font-bold capitalize'}>{filterName}</h4>
+
                                 {options.map(function (option) {
 
                                     return <div className={option.active ? 'font-bold' : ''}
