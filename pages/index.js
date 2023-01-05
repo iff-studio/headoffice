@@ -1,4 +1,4 @@
-import Layout from '../components/layout'
+import Layout from '../components/Layout'
 import { getAllByType } from '../lib/api'
 import Head from 'next/head'
 import { META_TITLE_SUFFIX } from '../lib/constants'
@@ -169,7 +169,7 @@ export default function Index ({ preview, models }) {
             </Head>
             <Layout preview={preview}>
                 <div className={'sm:flex'}>
-                    <div className={'sm:w-[16rem]'}>
+                    <div className={'sm:w-[12rem]'}>
                         {mapObjectToArray(filters, (options, filterName) => {
                             return <div key={filterName} className="p-4">
 

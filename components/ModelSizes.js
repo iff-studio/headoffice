@@ -3,7 +3,7 @@ export default function ModelSizes ({ model, className }) {
         {
             label: 'Shoe',
             key: 'shoe',
-            sign: ' UK'
+            sign: 'UK'
         },
         {
             label: 'Waist',

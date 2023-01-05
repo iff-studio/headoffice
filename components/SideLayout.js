@@ -1,4 +1,4 @@
-import Layout from './layout'
+import Layout from './Layout'
 import MarkdownContent from './MarkdownContent'
 import Head from 'next/head'
 import { META_TITLE_SUFFIX } from '../lib/constants'

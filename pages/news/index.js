@@ -1,9 +1,10 @@
-import Layout from '../../components/layout'
+import Layout from '../../components/Layout'
 import { getAllByType } from '../../lib/api'
 import Head from 'next/head'
 import { META_TITLE_SUFFIX } from '../../lib/constants'
 import Link from 'next/link'
 import ContentfulImage from '../../components/ContentfulImage'
+import NewsSection from '../../components/NewsSection'
 
 export default function Index ({ preview, posts }) {
 
@@ -14,21 +15,7 @@ export default function Index ({ preview, posts }) {
                 <title>{title}</title>
             </Head>
             <Layout preview={preview}>
-                <div className="grid font-bold p-2"
-                     style={{ gridTemplateColumns: `repeat(auto-fill, minmax(400px, 600px))` }}>
-                    {posts.map(function (post, key) {
-                        let { url, width, height } = post.coverImage;
-
-                        return <Link href={`/news/${post.slug}`} className='p-2' key={key}>
-                            <ContentfulImage {...{ src: url, width, height }}/>
-                            <h4 className="pt-2">
-                                {post.title}
-                            </h4>
-
-                        </Link>
-
-                    })}
-                </div>
+                <NewsSection news={posts} title={null}></NewsSection>
             </Layout>
         </>
     )

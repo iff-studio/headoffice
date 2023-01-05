@@ -1,5 +1,5 @@
 
-import DateComponent from '../components/date'
+import DateComponent from './DateComponent'
 import CoverImage from '../components/cover-image'
 import PostTitle from '../components/post-title'
 
