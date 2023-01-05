@@ -25,16 +25,15 @@ export default function ModelSizes ({ model, className }) {
             sign: '″',
             type: 'inch',
         },
-
     ]
     return <div className={className + ' clearfix'}>
         <div className='float-left w-6/12'>{model.heightFeet && `Height: ${model.heightFeet}'${model.heightInches || ''}`}</div>
-        {measurements.map((measurement) => {
+        {measurements.map((measurement, key) => {
             let val = model[measurement.key]
             if (!val) {
                 return null
             }
-            return <div className='float-left w-6/12'>
+            return <div className='float-left w-6/12' key={key}>
                 {measurement.label}: {val}{measurement.sign}
 
             </div>

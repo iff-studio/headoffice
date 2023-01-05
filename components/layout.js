@@ -12,7 +12,6 @@ export default function Layout ({ preview, children }) {
                 <nav className='border-black border-b border-solid font-bold tracking-tighter leading-tight' >
                     <ul className={'p-4'}>
                         <li className={'pr-3 inline'}><Link href={'/'}>Home</Link></li>
-                        <li className={'pr-3 inline'}><Link href={'/models'}>Models</Link></li>
                         <li className={'pr-3 inline'}><Link href={'/news'}>News</Link></li>
                         <li className={'pr-3 inline'}><Link href={'/about'}>About</Link></li>
                         <li className={'pr-3 inline'}><Link href={'/contact'}>Contact</Link></li>
