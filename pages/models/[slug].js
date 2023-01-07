@@ -38,7 +38,7 @@ export default function Model ({ preview, item, news }) {
 export async function getStaticProps ({ params, preview = false }) {
 
     const all = await getAllByType('model', preview)
-    const posts = await getAllByType('post', preview)
+    const posts = await getAllByType('post')
 
     const item = all.filter(function (i) {
         return i.slug === params.slug
