@@ -20,32 +20,29 @@ export default async function handler (req, res) {
         const postSlug = req.body.fields.slug['en-US']
         const postType = req.body.sys.contentType.sys.id
         let urls = []
-        let revalidations = []
-        let result
+
 
         if (postType === 'model') {
             urls.push(`/models/${postSlug}`)
             urls.push(`/`)
-            result = await res.revalidate(`/models/${postSlug}`)
-            revalidations.push(result)
-            result = await res.revalidate('/')
-            revalidations.push(result)
         }
+
         if (postType === 'post') {
             urls.push(`/news/${postSlug}`)
             urls.push(`/news`)
-            result = await res.revalidate(`/news/${postSlug}`)
-            revalidations.push(result)
-            result = await res.revalidate('/news')
-            revalidations.push(result)
-        }
-        if (postType === 'page') {
-            urls.push(`/${postSlug}`)
-            result = await res.revalidate(`/${postSlug}`)
-            revalidations.push(result)
         }
 
-        return res.json({ revalidated: true, postSlug, postType, urls, revalidations })
+        if (postType === 'page') {
+            urls.push(`/${postSlug}`)
+        }
+
+        let promises = urls.map(() => {
+            return res.revalidate(`/${postSlug}`)
+        })
+
+        let results = await Promise.all(promises)
+
+        return res.json({ revalidated: true, postSlug, postType, urls, results })
     } catch (err) {
         console.log(err)
         // If there was an error, Next.js will continue
