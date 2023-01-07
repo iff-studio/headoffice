@@ -18,7 +18,7 @@ export default async function handler (req, res) {
         // Note: if this fails to parse you may have forget to set the
         // "content-type" header correctly as mentioned here https://github.com/vercel/next.js/blob/canary/examples/cms-contentful/README.md#step-9-try-using-on-demand-revalidation
         const postSlug = req.body.fields.slug['en-US']
-        const postType = req.body.contentType.sys.id
+        const postType = req.body.sys.contentType.sys.id
 
         console.log(postType, postSlug)
         if (postType === 'model') {
@@ -33,7 +33,7 @@ export default async function handler (req, res) {
             await res.revalidate(`/${postSlug}`)
         }
 
-        return res.json({ revalidated: true })
+        return res.json({ revalidated: true, postSlug, postType })
     } catch (err) {
         console.log(err)
         // If there was an error, Next.js will continue
