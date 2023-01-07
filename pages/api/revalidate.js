@@ -18,10 +18,21 @@ export default async function handler (req, res) {
         // "content-type" header correctly as mentioned here https://github.com/vercel/next.js/blob/canary/examples/cms-contentful/README.md#step-9-try-using-on-demand-revalidation
         let postSlug = req.body.fields.slug['en-US']
 
-        console.log(req.body.fields)
-        // revalidate the individual post and the home page
-        await res.revalidate(`/models/${postSlug}`)
-        await res.revalidate('/')
+        const postType = req.body.contentType.sys.id
+
+        if (postType === 'model') {
+            await res.revalidate(`/models/${postSlug}`)
+            await res.revalidate('/')
+        }
+        if (postType === 'post') {
+            await res.revalidate(`/news/${postSlug}`)
+            await res.revalidate('/news')
+        }
+        if (postType === 'page') {
+            await res.revalidate(`/${postSlug}`)
+        }
+
+
 
         return res.json({ revalidated: true })
     } catch (err) {
