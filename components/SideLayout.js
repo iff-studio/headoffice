@@ -24,7 +24,7 @@ export default function SideLayout ({
         }
         <Layout preview={preview}>
             <div className="sm:flex sm:flex-row-reverse">
-                <div className="pt-8 sm:pt-16 px-4 sm:px-8 sm:w-6/12 md:w-5/12 lg:w-4/12 xl:w-3/12 2xl:2/12">
+                <div className="pt-8 sm:pt-16 px-4 sm:px-8 sm:w-6/12 md:w-5/12 lg:w-5/12 xl:w-4/12 2xl:2/12">
                     {title &&
                         <h1 className="text-6xl  font-bold tracking-tighter leading-tight md:leading-none mb-8">
                             {title}

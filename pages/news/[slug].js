@@ -4,8 +4,9 @@ import { useRouter } from 'next/router'
 import SideLayout from '../../components/SideLayout'
 import Loading from '../../components/Loading'
 import ModelSizes from '../../components/ModelSizes'
+import NewsSection from '../../components/NewsSection'
 
-export default function News ({ preview = false, item = null }) {
+export default function News ({ preview = false, item = null, models = [] }) {
 
     const router = useRouter()
 
@@ -16,18 +17,24 @@ export default function News ({ preview = false, item = null }) {
     if (!item) {
         return <ErrorPage statusCode={404}/>
     }
+    let modelsComponent = null
+    if (models.length) {
+        modelsComponent = <div className="pt-4"><NewsSection news={news} title="Included In:"/></div>
+    }
 
     return <SideLayout preview={preview}
-                       images={[item.coverImage]}
+                       images={item.imagesCollection.items}
+                       galleryLayout={item.galleryLayout}
                        title={item.title}
-                       content={item.content}/>
+                       content={item.content}
+                       bottom={modelsComponent}/>
 
 }
 
 export async function getStaticProps ({ params, preview = false }) {
 
     let all = await getAllByType('post', preview)
-
+    let models = await getAllByType('model', preview)
     const item = all.filter(function (i) {
         return i.slug === params.slug
     })[0] ?? null
