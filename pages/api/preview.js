@@ -17,13 +17,13 @@ export default async function preview (req, res) {
 
     switch (contentType){
         case ('model'):
-            url = `/model/${post.slug}`
+            url = `/model/${slug}`
             break;
         case ('post'):
-            url = `/news/${post.slug}`
+            url = `/news/${slug}`
             break;
         case ('page'):
-            url = `/page/${post.slug}`
+            url = `/page/${slug}`
             break;
     }
 
