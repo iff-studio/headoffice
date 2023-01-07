@@ -7,7 +7,7 @@ const contentfulLoader = ({ src, width, quality }) => {
 
 const ContentfulImage = (props) => {
 
-  return <Image loader={contentfulLoader} {...props} />
+  return <Image className={'w-full'} loader={contentfulLoader} {...props} />
 }
 
 export default ContentfulImage

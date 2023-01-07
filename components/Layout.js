@@ -1,6 +1,6 @@
-import PreviewAlert from './preview-alert'
-import Footer from '../components/footer'
-import Meta from '../components/meta'
+import PreviewAlert from './PreviewAlert'
+import Footer from './Footer'
+import Meta from './Meta'
 import Link from 'next/link'
 
 export default function Layout ({ preview, children }) {
@@ -9,8 +9,9 @@ export default function Layout ({ preview, children }) {
             <Meta/>
             <div className="min-h-screen">
                 <PreviewAlert preview={preview}/>
-                <div className='pt-[3.25rem]'></div>
-                <nav className='border-black border-b border-solid font-bold tracking-tighter leading-tight fixed top-0 left-0 right-0 bg-white' >
+                <div className="pt-[3.25rem]"></div>
+                <nav
+                    className="border-black z-10 border-b border-solid font-bold tracking-tighter leading-tight fixed top-0 left-0 right-0 bg-white">
                     <ul className={'p-4'}>
                         <li className={'pr-3 inline'}><Link href={'/'}>Home</Link></li>
                         <li className={'pr-3 inline'}><Link href={'/news'}>News</Link></li>
@@ -19,8 +20,9 @@ export default function Layout ({ preview, children }) {
                     </ul>
                 </nav>
                 <main>{children}</main>
+
+                <Footer/>
             </div>
-            <Footer/>
         </>
     )
 }

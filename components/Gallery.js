@@ -66,7 +66,7 @@ export default function Gallery ({ images = [], galleryLayout = '' }) {
      * w-1/4
      * w-1/5
      * */
-    return <div>
+    return <div className={'clearfix'}>
         {gallery.length && gallery.map(function (item, key) {
                 let content = null
                 if (item.type === 'image') {

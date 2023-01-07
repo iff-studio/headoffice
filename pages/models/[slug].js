@@ -21,7 +21,7 @@ export default function Model ({ preview, item, news }) {
     let newsComponent = null
 
     if (news.length) {
-        newsComponent = <div className='pt-12'><NewsSection news={news} title="Included In:"/></div>
+        newsComponent = <div className='pt-4'><NewsSection news={news} title="Included In:"/></div>
     }
 
     return <SideLayout preview={preview}
