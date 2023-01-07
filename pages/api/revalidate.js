@@ -19,21 +19,33 @@ export default async function handler (req, res) {
         // "content-type" header correctly as mentioned here https://github.com/vercel/next.js/blob/canary/examples/cms-contentful/README.md#step-9-try-using-on-demand-revalidation
         const postSlug = req.body.fields.slug['en-US']
         const postType = req.body.sys.contentType.sys.id
-
+        let urls = []
+        let revalidations = []
+        let result
         console.log(postType, postSlug)
         if (postType === 'model') {
-            await res.revalidate(`/models/${postSlug}`)
-            await res.revalidate('/')
+            urls.push(`/models/${postSlug}`)
+            urls.push(`/`)
+            result = await res.revalidate(`/models/${postSlug}`)
+            revalidations.push(result)
+            result = await res.revalidate('/')
+            revalidations.push(result)
         }
         if (postType === 'post') {
-            await res.revalidate(`/news/${postSlug}`)
-            await res.revalidate('/news')
+            urls.push(`/news/${postSlug}`)
+            urls.push(`/news`)
+            result = await res.revalidate(`/news/${postSlug}`)
+            revalidations.push(result)
+            result = await res.revalidate('/news')
+            revalidations.push(result)
         }
         if (postType === 'page') {
-            await res.revalidate(`/${postSlug}`)
+            urls.push(`/${postSlug}`)
+            result = await res.revalidate(`/${postSlug}`)
+            revalidations.push(result)
         }
 
-        return res.json({ revalidated: true, postSlug, postType })
+        return res.json({ revalidated: true, postSlug, postType, urls, revalidations })
     } catch (err) {
         console.log(err)
         // If there was an error, Next.js will continue
