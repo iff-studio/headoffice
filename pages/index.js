@@ -194,12 +194,15 @@ export default function Index ({ preview, models }) {
                                     console.log(model)
                                 }
                                 let { url, width, height } = model.mainImage
-                                return <Link href={`/models/${model.slug}`} key={key} className={'relative group'}>
+                                return <Link href={`/models/${model.slug}`} key={key} className={'relative group pb-[3.5rem]'} >
                                     <ContentfulImage {...{ src: url, width, height, alt: '' }}/>
-                                    <h4 className="absolute p-4 bottom-0 right-0 left-0 bg-white/[.5] group-hover:bg-white/[.75]">
+                                    <div
+                                        className="absolute p-4 bottom-0 right-0 left-0 bg-black transition-background text-white">
                                         <ModelSizes model={model} className="pb-4 hidden group-hover:block"/>
-                                        {model.name}
-                                    </h4>
+                                        <h4>
+                                            {model.name}
+                                        </h4>
+                                    </div>
                                 </Link>
 
                             })}
@@ -211,9 +214,9 @@ export default function Index ({ preview, models }) {
     )
 }
 
-export async function getStaticProps ({ preview = false }) {
-    const models = await getAllByType('model', preview)
-    return {
-        props: { models, preview: preview },
+    export async function getStaticProps ({ preview = false }) {
+        const models = await getAllByType('model', preview)
+        return {
+            props: { models, preview: preview },
+        }
     }
-}
