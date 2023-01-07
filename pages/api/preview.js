@@ -23,7 +23,7 @@ export default async function preview (req, res) {
             url = `/news/${slug}`
             break;
         case ('page'):
-            url = `/page/${slug}`
+            url = `/${slug}`
             break;
     }
 
