@@ -17,7 +17,7 @@ export default async function preview (req, res) {
 
     switch (contentType){
         case ('model'):
-            url = `/model/${slug}`
+            url = `/models/${slug}`
             break;
         case ('post'):
             url = `/news/${slug}`
