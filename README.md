@@ -1,5 +1,11 @@
 # Vercel / Nextjs / Contentful App
 
+Website is in development, it will still need proper layouts, for now on it's just something so admins could add their content. 
+
+https://headoffice.vercel.app/
+
+It integrates with contentful and supports previews and revalidations. 
+
 Get .env variables from your friendly dev. 
 
 ```shell
