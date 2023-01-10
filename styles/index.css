@@ -1,3 +1,4 @@
+@import "./fonts/lato.css";
 /* purgecss start ignore */
 @tailwind base;
 @tailwind components;
@@ -9,3 +10,5 @@
     display: table;
     clear: both;
 }
+
+
