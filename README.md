@@ -6,6 +6,10 @@ https://headoffice.vercel.app/
 
 It integrates with contentful and supports previews and revalidations. 
 
+It uses vercel for deployment and few small 'lambdas'
+
+# Development 
+
 Get .env variables from your friendly dev. 
 
 ```shell
