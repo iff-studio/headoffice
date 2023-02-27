@@ -24,7 +24,7 @@ export default function SideLayout ({
         }
         <Layout preview={preview}>
             <div className="sm:flex sm:flex-row-reverse border border-black sm:items-stretch -mt-0.5">
-                <div className="sm:w-1/2 md:w-1/3 lg:w-5/12 p-4 border border-black border-fix">
+                <div className="sm:w-1/2 md:w-1/3 lg:w-5/12 p-4 border border-black border-fix bg-white">
                     {title &&
                         <h1 className="text-6xl  font-bold tracking-tighter leading-tight md:leading-none pb-4 pt-2">
                             {title}

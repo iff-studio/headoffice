@@ -14,7 +14,7 @@ export default function NewsSection ({ news = [], title = 'News' }) {
         {news.map((post, key) => {
             return <div key={post.slug} className="border border-fix border-black md:w-1/2 float-left">
                 <CoverImage title={post.title} slug={post.slug} url={post.coverImage.url} alt=""/>
-                <div className="p-4">
+                <div className="p-4 bg-white">
                     <h3 className="text-3xl mb-1 leading-snug">
                         <Link href={`/news/${post.slug}`} className="hover:underline">
                             {post.title}

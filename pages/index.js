@@ -179,7 +179,7 @@ export default function Index ({ preview, models }) {
             </Head>
             <Layout preview={preview}>
                 <div>
-                    <div className={'border border-black -mt-0.5 clearfix'}>
+                    <div className={'border border-black -mt-0.5 clearfix bg-white'}>
                         {mapObjectToArray(filters, (options, filterName) => {
                             return <div key={filterName} className="">
                                 {options.map(function (option) {
