@@ -11,4 +11,21 @@
     clear: both;
 }
 
+.border-fix {
+    position: relative;
+}
+
+.border-fix:before {
+    border: 1px solid black;
+    z-index: 1;
+    position: absolute;
+    content: "";
+    display: block;
+    top: -2px;
+    left: -2px;
+    bottom: -2px;
+    right: -2px;
+    pointer-events: none;
+}
+
 

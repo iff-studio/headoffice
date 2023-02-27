@@ -28,6 +28,7 @@ export default function ModelSizes ({ model, className }) {
     ];
     let heightText = '';
     let heightCM = 0;
+
     if(model.heightFeet){
         heightCM = model.heightFeet * 30.48;
         if(model.heightInches){

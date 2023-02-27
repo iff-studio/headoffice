@@ -9,9 +9,14 @@ import { useRouter } from 'next/router'
 import { each, map, mapObjectToArray } from '../lib/helpers'
 import ModelSizes from '../components/ModelSizes'
 import Loading from '../components/Loading'
+import SideTitle from '../components/SideTitle'
+import ModelsSection from '../components/ModelsSection'
 
 function generateEqualFunction (name, value) {
     return function (model) {
+        if (Array.isArray(value)) {
+            return typeof model[name] !== 'undefined' && value.includes(model[name])
+        }
         return typeof model[name] !== 'undefined' && model[name] === value
     }
 }
@@ -21,7 +26,11 @@ const MULTIPLE = 'multiple'
 const FILTER_BEHAVIOUR = { gender: SINGLE }
 const FILTER_OPTIONS = {
     gender: [
-
+        {
+            value: null,
+            label: 'All',
+            filter: generateEqualFunction('gender', ['He', 'She', 'They']),
+        },
         {
             value: 1,
             label: 'He',
@@ -131,6 +140,7 @@ export default function Index ({ preview, models }) {
             }
         })
     })
+
     /**
      * filter models
      */
@@ -168,55 +178,35 @@ export default function Index ({ preview, models }) {
                 <title>{title}</title>
             </Head>
             <Layout preview={preview}>
-                <div className={'sm:flex'}>
-                    <div className={'sm:w-[12rem]'}>
+                <div>
+                    <div className={'border border-black -mt-0.5 clearfix'}>
                         {mapObjectToArray(filters, (options, filterName) => {
-                            return <div key={filterName} className="p-4">
-
+                            return <div key={filterName} className="">
                                 {options.map(function (option) {
-
-                                    return <div className={option.active ? 'font-bold' : ''}
-                                                key={filterName + option.value}>
-                                        <Link href={option.link}>
-                                            - {option.label + (option.active ? ' ×' : '')}
-                                        </Link><br/>
+                                    return <div
+                                        className={'border border-black block w-1/4 float-left ' + (option.active ? 'bg-black text-white' : '')}
+                                        key={filterName + option.value}>
+                                        <Link className={'p-4 block'} href={option.link}>
+                                            {option.label}
+                                        </Link>
                                     </div>
                                 })}
                             </div>
                         })}
 
                     </div>
-                    <div className={'sm:flex-1'}>
-                        <div className="grid"
-                             style={{ gridTemplateColumns: `repeat(auto-fit, minmax(300px, 1fr))` }}>
-                            {models.map(function (model, key) {
-                                if (!model.mainImage) {
-                                    console.log(model)
-                                }
-                                let { url, width, height } = model.mainImage
-                                return <Link href={`/models/${model.slug}`} key={key} className={'relative group pb-[3.5rem]'} >
-                                    <ContentfulImage {...{ src: url, width, height, alt: '' }}/>
-                                    <div
-                                        className="absolute p-4 bottom-0 right-0 left-0 bg-black transition-background text-white">
-                                        <ModelSizes model={model} className="pb-4 hidden group-hover:block"/>
-                                        <h4>
-                                            {model.name}
-                                        </h4>
-                                    </div>
-                                </Link>
 
-                            })}
-                        </div>
-                    </div>
+                    <ModelsSection models={models}></ModelsSection>
+
                 </div>
             </Layout>
         </>
     )
 }
 
-    export async function getStaticProps ({ preview = false }) {
-        const models = await getAllByType('model', preview)
-        return {
-            props: { models, preview: preview },
-        }
+export async function getStaticProps ({ preview = false }) {
+    const models = await getAllByType('model', preview)
+    return {
+        props: { models, preview: preview },
     }
+}

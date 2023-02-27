@@ -23,17 +23,17 @@ export default function SideLayout ({
             </Head>
         }
         <Layout preview={preview}>
-            <div className="sm:flex sm:flex-row-reverse">
-                <div className="pt-8 sm:pt-16 px-4 sm:px-8 sm:w-6/12 md:w-5/12 lg:w-5/12 xl:w-4/12 2xl:2/12">
+            <div className="sm:flex sm:flex-row-reverse border border-black sm:items-stretch -mt-0.5">
+                <div className="sm:w-1/2 md:w-1/3 lg:w-5/12 p-4 border border-black border-fix">
                     {title &&
-                        <h1 className="text-6xl  font-bold tracking-tighter leading-tight md:leading-none mb-8">
+                        <h1 className="text-6xl  font-bold tracking-tighter leading-tight md:leading-none pb-4 pt-2">
                             {title}
                         </h1>
                     }
                     {children}
                     {content && <MarkdownContent content={content}></MarkdownContent>}
                 </div>
-                <div className="flex-1">
+                <div className={'flex-1 border border-black  border-fix'}>
                     {images.length && <Gallery images={images} galleryLayout={galleryLayout || ''}></Gallery>}
                 </div>
 

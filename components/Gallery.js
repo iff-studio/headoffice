@@ -36,7 +36,7 @@ export default function Gallery ({ images = [], galleryLayout = '' }) {
 
         if (line.includes('vimeo')) {
             let [link, sizes] = line.split('|')
-            let [width, height] = (sizes||'').split('x')
+            let [width, height] = (sizes || '').split('x')
             let vimeoId = link.split('?')[0].split('/').filter(function (path) {
                 return isInt(path)
             }).at(-1)
@@ -66,7 +66,7 @@ export default function Gallery ({ images = [], galleryLayout = '' }) {
      * w-1/4
      * w-1/5
      * */
-    return <div className={'clearfix'}>
+    return <div className={'clearfix -m-0.5 border border-black'}>
         {gallery.length && gallery.map(function (item, key) {
                 let content = null
                 if (item.type === 'image') {
@@ -78,6 +78,7 @@ export default function Gallery ({ images = [], galleryLayout = '' }) {
                         src={item.image.url}/>
 
                 }
+
                 if (item.type === 'vimeo') {
                     content = <Vimeo vimeoId={item.vimeoId} {...item.size}/>
                 }
@@ -85,7 +86,8 @@ export default function Gallery ({ images = [], galleryLayout = '' }) {
                 if (item.layout !== 1) {
                     className = `w-1/${item.layout}`
                 }
-                return <div data={JSON.stringify(item)} key={key} className={'float-left ' + className}>{content}</div>
+                return <div key={key}
+                            className={'float-left border border-fix border-black ' + className}>{content}</div>
             }
         )}
     </div>
