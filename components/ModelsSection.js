@@ -4,13 +4,20 @@ import ContentfulImage from './ContentfulImage'
 import ModelSizes from './ModelSizes'
 import React from 'react'
 
-export default function ModelsSection ({ title, models }) {
-    return <div className="border border-white border-l-black border-t-black position relative clearfix -mt-0.5">
-        <SideTitle>{title || 'Models'}</SideTitle>
+export default function ModelsSection ({ title, models = [], intro = null }) {
+    let itemClasses = 'relative group md:w-1/3 lg:w-1/4 float-left '
+    if (intro) {
+        intro = <div className={itemClasses}>
+            {intro}
+        </div>
+    }
+    return <div className="border border-transparent position relative clearfix -mt-0.5">
+        <SideTitle>{title}</SideTitle>
+        {intro}
         {models.map(function (model, key) {
             let { url, width, height } = model.mainImage
             return <Link href={`/models/${model.slug}`} key={key}
-                         className={'relative group pb-[3.5rem] border border-black  md:w-1/3 lg:w-1/4 float-left border-fix'}>
+                         className={itemClasses + ' pb-[3.5rem] border border-black border-fix'}>
 
                 <ContentfulImage {...{ src: url, width, height, alt: '' }}/>
                 <div

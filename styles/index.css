@@ -17,6 +17,7 @@
 
 .border-fix:before {
     border: 1px solid black;
+
     z-index: 1;
     position: absolute;
     content: "";
@@ -28,4 +29,7 @@
     pointer-events: none;
 }
 
+/*.border-black{*/
+/*    border-color: transparent;*/
+/*}*/
 

@@ -26,7 +26,7 @@ export default function Model ({ preview, item, news }) {
                        title={item.name}
                        content={item.bio}
                        bottom={ <NewsSection news={news} title="Included In:"/>}>
-        <ModelSizes className={'border-2 border-black p-4 mb-4 -mx-[1.125rem] mt-2'} model={item}></ModelSizes>
+        <ModelSizes className={'pb-4'} model={item}></ModelSizes>
     </SideLayout>
 
 }

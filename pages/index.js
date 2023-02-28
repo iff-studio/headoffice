@@ -7,10 +7,10 @@ import ContentfulImage from '../components/ContentfulImage'
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import { each, map, mapObjectToArray } from '../lib/helpers'
-import ModelSizes from '../components/ModelSizes'
 import Loading from '../components/Loading'
-import SideTitle from '../components/SideTitle'
 import ModelsSection from '../components/ModelsSection'
+import Fuse from 'fuse.js'
+import debounce from '../lib/debounce'
 
 function generateEqualFunction (name, value) {
     return function (model) {
@@ -21,33 +21,29 @@ function generateEqualFunction (name, value) {
     }
 }
 
+function generateSearchFunction (models, query) {
+
+    if (query === null || query.trim() === '') {
+
+        return function () {
+            return true
+        }
+    }
+
+    let fuse = new Fuse(models, { keys: ['name'] })
+    let results = fuse.search(query).map(function ({ item }) {
+        return item.slug
+    })
+
+    return function (model) {
+        return results.includes(model.slug)
+    }
+}
+
 const SINGLE = 'single'
 const MULTIPLE = 'multiple'
-const FILTER_BEHAVIOUR = { gender: SINGLE }
-const FILTER_OPTIONS = {
-    gender: [
-        {
-            value: null,
-            label: 'All',
-            filter: generateEqualFunction('gender', ['He', 'She', 'They']),
-        },
-        {
-            value: 1,
-            label: 'He',
-            filter: generateEqualFunction('gender', 'He'),
-        },
-        {
-            value: 2,
-            label: 'She',
-            filter: generateEqualFunction('gender', 'She'),
-        },
-        {
-            value: 3,
-            label: 'They',
-            filter: generateEqualFunction('gender', 'They'),
-        }
-    ]
-}
+const SEARCH = 'search'
+const FILTER_BEHAVIOUR = { search: SEARCH, gender: SINGLE }
 
 /**
  * Kind of like URlSearchParams but removes empties
@@ -92,6 +88,9 @@ function castQuery (query) {
                 filteredQuery[key] = parsed
             }
         }
+        if (FILTER_BEHAVIOUR[key] === SEARCH) {
+            filteredQuery[key] = val
+        }
     })
     return filteredQuery
 }
@@ -100,7 +99,40 @@ export default function Index ({ preview, models }) {
 
     const title = `News ${META_TITLE_SUFFIX}`
     const router = useRouter()
-    const currentFilters = Object.assign({ gender: null }, castQuery(router.query))
+    const currentFilters = Object.assign({ gender: null, search: '' }, castQuery(router.query))
+
+    const FILTER_OPTIONS = {
+        search: [
+            {
+                value: null,
+                type: 'search',
+                label: 'Search',
+                filter: generateSearchFunction(models, currentFilters.search)
+            }
+        ],
+        gender: [
+            {
+                value: null,
+                label: 'All',
+                filter: generateEqualFunction('gender', ['He', 'She', 'They']),
+            },
+            {
+                value: 1,
+                label: 'He',
+                filter: generateEqualFunction('gender', 'He'),
+            },
+            {
+                value: 2,
+                label: 'She',
+                filter: generateEqualFunction('gender', 'She'),
+            },
+            {
+                value: 3,
+                label: 'They',
+                filter: generateEqualFunction('gender', 'They'),
+            }
+        ]
+    }
 
     if (router.isFallback) {
         return <Loading/>
@@ -125,6 +157,12 @@ export default function Index ({ preview, models }) {
                 newQuery[filterName].push(value)
             }
         }
+
+        if (type === SEARCH) {
+            active = currentFilters[SEARCH] === value
+            newQuery[filterName] = value
+        }
+
         return [renderUrl(newQuery), active]
     }
 
@@ -152,25 +190,34 @@ export default function Index ({ preview, models }) {
                     return
                 }
             }
-        } else {
+        }
+
+        if (FILTER_BEHAVIOUR[filterName] === MULTIPLE) {
             let func = []
+
             options.forEach(function (option) {
                 if (option.active) {
                     func.push(option.filter)
                 }
             })
 
-            models.filter(function (model) {
+            models = models.filter(function (model) {
                 for (let filter of func) {
-                    if (filter(model)) {
-                        return true
-                    }
+                    return filter(model)
                 }
                 return false
             })
         }
 
+        if (FILTER_BEHAVIOUR[filterName] === SEARCH) {
+            models = models.filter(options[0].filter)
+        }
+
     })
+
+    let debouncedSearchChange = debounce(function (e) {
+        router.push(getLinkAndState('search', e.target.value)[0])
+    }, 100)
 
     return (
         <>
@@ -179,24 +226,40 @@ export default function Index ({ preview, models }) {
             </Head>
             <Layout preview={preview}>
                 <div>
-                    <div className={'border border-black -mt-0.5 clearfix bg-white'}>
-                        {mapObjectToArray(filters, (options, filterName) => {
-                            return <div key={filterName} className="">
-                                {options.map(function (option) {
+                    <ModelsSection intro={
+                        <div className={'clearfix bg-white'}>
+                            {mapObjectToArray(filters, (options, filterName) => {
+                                return options.map(function (option) {
+                                    let itemClasses = 'border border-black block border-fix'
+                                    if (option.type === 'search') {
+                                        return <div className={itemClasses + ' relative'} key={filterName + 'search'}>
+                                            <input key={currentFilters.search === '' ? 'empty' : 'search'}
+                                                   autoFocus={currentFilters.search === ''}
+                                                   className={'p-4 outline-none w-full'}
+                                                   placeholder={'Type name'}
+                                                   defaultValue={currentFilters.search}
+                                                   onChange={debouncedSearchChange}/>
+                                            {currentFilters.search !== '' ?
+                                                <button
+                                                    className={'w-8 absolute top-0 right-0 bottom-0 border-l-2 border-black'}
+                                                    onClick={() => {
+                                                        router.push(getLinkAndState('search', '')[0])
+                                                    }}>X</button> :
+                                                null
+                                            }
+                                        </div>
+                                    }
                                     return <div
-                                        className={'border border-black block w-1/4 float-left ' + (option.active ? 'bg-black text-white' : '')}
+                                        className={itemClasses + (option.active ? ' bg-black text-white' : '')}
                                         key={filterName + option.value}>
                                         <Link className={'p-4 block'} href={option.link}>
                                             {option.label}
                                         </Link>
                                     </div>
-                                })}
-                            </div>
-                        })}
-
-                    </div>
-
-                    <ModelsSection models={models}></ModelsSection>
+                                })
+                            })}
+                        </div>
+                    } models={models}></ModelsSection>
 
                 </div>
             </Layout>
