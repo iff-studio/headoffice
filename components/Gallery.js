@@ -84,7 +84,7 @@ export default function Gallery ({ images = [], galleryLayout = '' }) {
                 }
                 let className = 'w-full'
                 if (item.layout !== 1) {
-                    className = `w-1/${item.layout}`
+                    className = `md:w-1/${item.layout}`
                 }
                 return <div key={key}
                             className={'float-left border border-fix border-black ' + className}>{content}</div>
