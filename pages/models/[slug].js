@@ -18,8 +18,6 @@ export default function Model ({ preview, item, news }) {
         return <ErrorPage statusCode={404}/>
     }
 
-    let newsComponent = null
-
     return <SideLayout preview={preview}
                        images={item.imagesCollection.items}
                        galleryLayout={item.galleryLayout}

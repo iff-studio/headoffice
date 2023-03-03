@@ -230,18 +230,18 @@ export default function Index ({ preview, models }) {
                         <div className={'clearfix bg-white'}>
                             {mapObjectToArray(filters, (options, filterName) => {
                                 return options.map(function (option) {
-                                    let itemClasses = 'border border-black block border-fix'
+                                    let itemClasses = 'border border-transparent block border-fix'
                                     if (option.type === 'search') {
                                         return <div className={itemClasses + ' relative'} key={filterName + 'search'}>
                                             <input key={currentFilters.search === '' ? 'empty' : 'search'}
                                                    autoFocus={true}
-                                                   className={'p-4 outline-none w-full'}
+                                                   className={'2xl:pl-0 p-4 outline-none w-full'}
                                                    placeholder={'Type name'}
                                                    defaultValue={currentFilters.search}
                                                    onChange={debouncedSearchChange}/>
                                             {currentFilters.search !== '' ?
                                                 <button
-                                                    className={'w-8 absolute top-0 right-0 bottom-0 border-l-2 border-black'}
+                                                    className={'w-16 absolute top-0 right-0 bottom-0 border-l-2 border-transparent'}
                                                     onClick={() => {
                                                         router.push(getLinkAndState('search', '')[0])
                                                     }}>X</button> :
@@ -250,9 +250,9 @@ export default function Index ({ preview, models }) {
                                         </div>
                                     }
                                     return <div
-                                        className={itemClasses + (option.active ? ' bg-black text-white' : '')}
+                                        className={itemClasses + (option.active ? '' : '')}
                                         key={filterName + option.value}>
-                                        <Link className={'p-4 block'} href={option.link}>
+                                        <Link className={'2xl:pl-0 p-4 block relative'} href={option.link}>
                                             {option.label}
                                         </Link>
                                     </div>

@@ -6,7 +6,7 @@ import React from 'react'
 import { PLACEHOLDER } from '../lib/placeholder'
 
 export default function ModelsSection ({ title, models = [], intro = null }) {
-    let itemClasses = 'relative group md:w-1/3 lg:w-1/4 float-left '
+    let itemClasses = 'relative group md:w-1/3 lg:w-1/6 float-left '
     if (intro) {
         intro = <div className={itemClasses}>
             {intro}
@@ -18,7 +18,7 @@ export default function ModelsSection ({ title, models = [], intro = null }) {
         {models.map(function (model, key) {
             let { url = PLACEHOLDER, width, height } = model.mainImage
             return <Link href={`/models/${model.slug}`} key={key}
-                         className={itemClasses + ' pb-[3.5rem] border border-black border-fix'}>
+                         className={itemClasses + ' pb-[3.5rem] border border-transparent border-fix'}>
 
                 <ContentfulImage {...{ src: url, width, height, alt: '' }}/>
                 <div

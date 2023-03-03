@@ -58,7 +58,7 @@ export default function Gallery ({ images = [], galleryLayout = '' }) {
     }).filter(x => !!x)
 
     images.forEach(function (image) {
-        gallery.push({ type: 'image', 'image': image, layout: 1 })
+        gallery.push({ type: 'image', 'image': image, layout: 2 })
     })
 
     /**
@@ -68,7 +68,7 @@ export default function Gallery ({ images = [], galleryLayout = '' }) {
      * md:w-1/4
      * md:w-1/5
      * */
-    return <div className={'clearfix -m-0.5 border border-black'}>
+    return <div className={'clearfix -m-0.5 border border-transparent'}>
         {gallery.length && gallery.map(function (item, key) {
                 let content = null
                 if (item.type === 'image') {
@@ -88,7 +88,7 @@ export default function Gallery ({ images = [], galleryLayout = '' }) {
                 if (item.layout !== 1) {
                     className = `md:w-1/${item.layout}`
                 }
-                return <div key={key} className={'float-left border border-fix border-black ' + className}>{content}</div>
+                return <div key={key} className={'float-left border border-transparent border-fix ' + className}>{content}</div>
             }
         )}
     </div>

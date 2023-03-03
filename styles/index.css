@@ -16,7 +16,7 @@
 }
 
 .border-fix:before {
-    border: 1px solid black;
+    border: 1px solid transparent;
 
     z-index: 1;
     position: absolute;
@@ -29,7 +29,15 @@
     pointer-events: none;
 }
 
-/*.border-black{*/
-/*    border-color: transparent;*/
-/*}*/
 
+.wrap {
+    max-width: 96rem;
+    margin: 0 auto;
+}
+
+@media (max-width: 96rem) {
+    .wrap {
+        max-width: 100%;
+        margin: 0 -2px;
+    }
+}

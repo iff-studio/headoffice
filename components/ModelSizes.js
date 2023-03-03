@@ -1,10 +1,6 @@
 export default function ModelSizes ({ model, className }) {
     let measurements = [
-        {
-            label: 'Shoe',
-            key: 'shoe',
-            sign: 'UK'
-        },
+
         {
             label: 'Waist',
             key: 'waist',
@@ -25,6 +21,11 @@ export default function ModelSizes ({ model, className }) {
             sign: '″',
             type: 'inch',
         },
+        {
+            label: 'Shoe',
+            key: 'shoe',
+            sign: ' UK'
+        },
     ];
     let heightText = '';
     let heightCM = 0;
@@ -41,9 +42,9 @@ export default function ModelSizes ({ model, className }) {
     }
 
     {model.heightFeet && `Height: ${model.heightFeet}'${model.heightInches || ''}`}
-    return <div className={className + ' clearfix text-xs'}>
+    return <div className={className + ' clearfix'}>
         <div
-            className="float-left w-6/12">{heightText}</div>
+            className="">{heightText}</div>
         {measurements.map((measurement, key) => {
             let val = model[measurement.key]
             if (!val) {
@@ -54,7 +55,7 @@ export default function ModelSizes ({ model, className }) {
             if (measurement.type === 'inch') {
                 text += ` / ${Math.ceil(val * 2.54)}cm`
             }
-            return <div className="float-left w-6/12" key={key}>
+            return <div className="" key={key}>
                 {text}
             </div>
 
