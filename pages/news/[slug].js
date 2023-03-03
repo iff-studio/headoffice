@@ -44,7 +44,7 @@ export async function getStaticProps ({ params, preview = false }) {
     })[0] ?? null
 
     let modelSlugs = item.modelsCollection.items.map(function (model) {
-        return model.slug
+        return model?.slug ?? false
     })
 
     let models = await getAllByType('model')
