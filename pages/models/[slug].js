@@ -25,7 +25,7 @@ export default function Model ({ preview, item, news }) {
                        galleryLayout={item.galleryLayout}
                        title={item.name}
                        content={item.bio}
-                       bottom={ <NewsSection news={news} title="Included In:"/>}>
+                       bottom={<NewsSection news={news} title="Included In:"/>}>
         <ModelSizes className={'pb-4'} model={item}></ModelSizes>
     </SideLayout>
 
@@ -56,7 +56,7 @@ export async function getStaticProps ({ params, preview = false }) {
         }
 
         return post.modelsCollection.items.map(function (model) {
-            return model.slug
+            return model?.slug ?? false
         }).includes(params.slug)
     })
 

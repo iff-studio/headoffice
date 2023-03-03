@@ -3,6 +3,7 @@ import Link from 'next/link'
 import ContentfulImage from './ContentfulImage'
 import ModelSizes from './ModelSizes'
 import React from 'react'
+import { PLACEHOLDER } from '../lib/placeholder'
 
 export default function ModelsSection ({ title, models = [], intro = null }) {
     let itemClasses = 'relative group md:w-1/3 lg:w-1/4 float-left '
@@ -15,7 +16,7 @@ export default function ModelsSection ({ title, models = [], intro = null }) {
         <SideTitle>{title}</SideTitle>
         {intro}
         {models.map(function (model, key) {
-            let { url, width, height } = model.mainImage
+            let { url = PLACEHOLDER, width, height } = model.mainImage
             return <Link href={`/models/${model.slug}`} key={key}
                          className={itemClasses + ' pb-[3.5rem] border border-black border-fix'}>
 

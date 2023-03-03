@@ -234,7 +234,7 @@ export default function Index ({ preview, models }) {
                                     if (option.type === 'search') {
                                         return <div className={itemClasses + ' relative'} key={filterName + 'search'}>
                                             <input key={currentFilters.search === '' ? 'empty' : 'search'}
-                                                   autoFocus={currentFilters.search === ''}
+                                                   autoFocus={true}
                                                    className={'p-4 outline-none w-full'}
                                                    placeholder={'Type name'}
                                                    defaultValue={currentFilters.search}

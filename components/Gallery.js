@@ -1,4 +1,5 @@
 import galleryStyles from './gallery.module.css'
+import { PLACEHOLDER } from '../lib/placeholder'
 
 function isInt (int) {
     return /^[0-9]+$/.test(int)
@@ -75,7 +76,7 @@ export default function Gallery ({ images = [], galleryLayout = '' }) {
                         height={item.image.height}
                         className="w-full"
                         alt=""
-                        src={item.image.url}/>
+                        src={item.image?.url??PLACEHOLDER}/>
 
                 }
 

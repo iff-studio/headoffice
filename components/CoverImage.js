@@ -1,8 +1,9 @@
 import ContentfulImage from './ContentfulImage'
 import Link from 'next/link'
 import cn from 'classnames'
+import { PLACEHOLDER } from '../lib/placeholder'
 
-export default function CoverImage({ title, url, slug }) {
+export default function CoverImage({ title, url = PLACEHOLDER, slug }) {
   const image = (
     <ContentfulImage
       width={2000}
