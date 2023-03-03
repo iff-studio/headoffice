@@ -22,7 +22,8 @@ function Vimeo ({ vimeoId, width, height }) {
 
 export default function Gallery ({ images = [], galleryLayout = '' }) {
 
-    images = images.slice()
+    images = images.slice().filter(im => im?.url ?? false)
+
     galleryLayout = '' + galleryLayout
 
     let lines = galleryLayout.trim().split(/\r?\n/)
@@ -61,11 +62,11 @@ export default function Gallery ({ images = [], galleryLayout = '' }) {
     })
 
     /**
-     * w-1/2
-     * w-12/12
-     * w-1/3
-     * w-1/4
-     * w-1/5
+     * md:w-1/2
+     * md:w-12/12
+     * md:w-1/3
+     * md:w-1/4
+     * md:w-1/5
      * */
     return <div className={'clearfix -m-0.5 border border-black'}>
         {gallery.length && gallery.map(function (item, key) {
@@ -76,7 +77,7 @@ export default function Gallery ({ images = [], galleryLayout = '' }) {
                         height={item.image.height}
                         className="w-full"
                         alt=""
-                        src={item.image?.url??PLACEHOLDER}/>
+                        src={item.image?.url ?? PLACEHOLDER}/>
 
                 }
 
@@ -87,8 +88,7 @@ export default function Gallery ({ images = [], galleryLayout = '' }) {
                 if (item.layout !== 1) {
                     className = `md:w-1/${item.layout}`
                 }
-                return <div key={key}
-                            className={'float-left border border-fix border-black ' + className}>{content}</div>
+                return <div key={key} className={'float-left border border-fix border-black ' + className}>{content}</div>
             }
         )}
     </div>

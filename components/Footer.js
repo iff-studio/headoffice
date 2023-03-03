@@ -78,7 +78,7 @@ export default function Footer () {
     return <footer id={'footer'}>
         <div className="pt-[3.125rem]"></div>
         <div className={'border-t-2 border-black z-10 fixed bottom-0 left-0 right-0 bg-white'}>
-            <div className={`max-w-screen-2xl mx-auto border-black z-10 border-l-2 transition-margin border-solid ${status === STATUS.SUCCESS ? '-mb-[3.25rem]' : ''}`}>
+            <div className={`mx-auto border-black z-10 border-l-2 transition-margin border-solid ${status === STATUS.SUCCESS ? '-mb-[3.25rem]' : ''}`}>
                 {displayInput && <form onSubmit={submit}
                                        action="https://headofficemgmt.us14.list-manage.com/subscribe/post"
                                        method="post"
