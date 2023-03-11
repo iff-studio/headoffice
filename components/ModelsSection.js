@@ -16,7 +16,12 @@ export default function ModelsSection ({ title, models = [], intro = null }) {
         <SideTitle>{title}</SideTitle>
         {intro}
         {models.map(function (model, key) {
-            let { url = PLACEHOLDER, width, height } = model.mainImage
+            let { url = null, width, height } = model.mainImage ?? {}
+
+            if (url === null) {
+                return null
+            }
+
             return <Link href={`/models/${model.slug}`} key={key}
                          className={itemClasses + ' pb-[3.5rem] border border-transparent border-fix'}>
 
