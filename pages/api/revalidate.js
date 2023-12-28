@@ -31,8 +31,8 @@ export default async function handler (req, res) {
             urls.push(`/${postSlug}`)
         }
 
-        let promises = urls.map(() => {
-            return res.revalidate(`/${postSlug}`)
+        let promises = urls.map((url) => {
+            return res.revalidate(urls)
         })
 
         let results = await Promise.all(promises)

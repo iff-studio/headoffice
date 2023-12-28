@@ -77,7 +77,7 @@ export default function Footer () {
 
     return <footer id={'footer'}>
         <div className="pt-[3.125rem]"></div>
-        <div className={'border-t-2 z-10 fixed bottom-0 left-0 right-0 bg-white border-transparent'}>
+        <div className={'border-t-2 z-10 fixed bottom-0 left-0 right-0 bg-white border-black'}>
             <div className={`mx-auto z-10 border-l-2 transition-margin border-solid border-transparent ${status === STATUS.SUCCESS ? '-mb-[3.25rem]' : ''}`}>
                 {displayInput && <form onSubmit={submit}
                                        action="https://headofficemgmt.us14.list-manage.com/subscribe/post"
