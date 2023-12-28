@@ -32,7 +32,7 @@ export default async function handler (req, res) {
         }
 
         let promises = urls.map((url) => {
-            return res.revalidate(urls)
+            return res.revalidate(url)
         })
 
         let results = await Promise.all(promises)
