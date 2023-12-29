@@ -5,6 +5,7 @@ import SideLayout from '../../components/SideLayout'
 import ModelSizes from '../../components/ModelSizes'
 import Loading from '../../components/Loading'
 import NewsSection from '../../components/NewsSection'
+import SectionTitle from '../../components/SectionTitle'
 
 export default function Model ({ preview, item, news }) {
 
@@ -23,7 +24,7 @@ export default function Model ({ preview, item, news }) {
                        galleryLayout={item.galleryLayout}
                        title={item.name}
                        content={item.bio}
-                       bottom={<NewsSection news={news} title="Included In:"/>}>
+                       bottom={news.length > 0 && <div><SectionTitle>Featured In: </SectionTitle><NewsSection news={news}/></div>}>
         <ModelSizes className={'pb-4'} model={item}></ModelSizes>
     </SideLayout>
 

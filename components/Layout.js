@@ -12,7 +12,7 @@ export default function Layout ({ preview, children }) {
         <>
             <Meta/>
             <div className="min-h-screen">
-                <div className="sm:pt-[4.25rem]"></div>
+                <div className="sm:pt-[4.5rem]"></div>
                 <nav
                     className="wrap z-10 fixed top-0 left-0 right-0 bg-white">
                     <ul className={'mx-auto clearfix py-4 px-2'}>

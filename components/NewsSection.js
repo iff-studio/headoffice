@@ -9,8 +9,6 @@ export default function NewsSection ({ news = [], title = 'News', hasLeading = t
         return null
     }
 
-    news = [...news, ...news, ...news]
-
     return <section className={'relative clearfix'}>
 
         {news.map((post, key) => {

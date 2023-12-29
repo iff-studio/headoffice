@@ -35,3 +35,32 @@
     margin: 0 auto;
 }
 
+#__next {
+    min-height: calc(100vh + 1px);
+}
+
+body {
+    overflow-x: hidden;
+    scrollbar-gutter: stable;
+}
+
+body::-webkit-scrollbar {
+    width: 8px;
+}
+
+body::-webkit-scrollbar-track {
+    -webkit-box-shadow: none;
+
+    background: transparent url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8' %3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' width='12' height='12'%3E%3C/svg%3E%0A") repeat-y !important;
+}
+
+body::-webkit-scrollbar-thumb {;
+    background: rgba(0, 0, 0, 1);
+}
+
+
+body::-webkit-scrollbar-thumb:window-inactive {
+    background: none;
+}
+
+

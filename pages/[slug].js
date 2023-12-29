@@ -18,6 +18,7 @@ export default function Index ({ preview, item }) {
 
     return <SideLayout preview={preview}
                        images={[item.image]}
+                       galleryLayout={'1'}
                        title={item.title}
                        content={item.content}/>
 
