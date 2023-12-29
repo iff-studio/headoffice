@@ -2,23 +2,34 @@ import PreviewAlert from './PreviewAlert'
 import Footer from './Footer'
 import Meta from './Meta'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 export default function Layout ({ preview, children }) {
+    const router = useRouter()
+    const activeClasses = 'underline decoration-2 underline-offset-4'
+
     return (
         <>
             <Meta/>
             <div className="min-h-screen">
-
-                <div className="pt-[4.25rem]"></div>
+                <div className="sm:pt-[4.25rem]"></div>
                 <nav
-                    className="wrap z-10 border-b-2 border-solid border-transparent font-bold leading-tight fixed top-0 left-0 right-0 bg-white">
-                    <ul className={' mx-auto clearfix py-2'}>
-                        <li className={'inline-block mr-8'}><Link className={'inline-block 2xl:pl-0 p-4 uppercase'} href={'/'}>Headoffice MGMT</Link></li>
-                        <li className={'inline-block float-right'}><Link className={'inline-block p-4 uppercase'} href={'/contact'}>Contact</Link></li>
-                        <li className={'inline-block float-right'}><Link className={'inline-block p-4 uppercase'} href={'/about'}>About</Link></li>
-                        <li className={'inline-block float-right'}><Link className={'inline-block p-4 uppercase'} href={'/news'}>News</Link></li>
-                        <li className={'inline-block float-right'}><Link className={'inline-block p-4 uppercase'} href={'/'}>Models</Link></li>
+                    className="wrap z-10 fixed top-0 left-0 right-0 bg-white">
+                    <ul className={'mx-auto clearfix py-4 px-2'}>
+                        <li className={'block sm:float-left'}>
+                            <Link className={'inline-block p-2 uppercase font-bold'} href={'/'}>Headoffice MGMT</Link>
+                        </li>
+                        <li className={'clear-both sm:clear-none block float-left sm:float-right'}>
+                            <Link className={'inline-block p-2 uppercase ' + (router.asPath === '/contact' ? activeClasses : '')}
+                                  href={'/contact'}>Contact</Link>
+                        </li>
 
+                        <li className={'block float-left sm:float-right'}>
+                            <Link className={'inline-block p-2 uppercase ' + (router.asPath === '/news' ? activeClasses : '')} href={'/news'}>News</Link>
+                        </li>
+                        <li className={'block float-left sm:float-right'}>
+                            <Link className={'inline-block p-2 uppercase ' + (router.asPath === '/' ? activeClasses : '')} href={'/'}>Models</Link>
+                        </li>
                     </ul>
                 </nav>
                 <PreviewAlert preview={preview}/>

@@ -3,12 +3,9 @@ import ErrorPage from 'next/error'
 import { useRouter } from 'next/router'
 import SideLayout from '../../components/SideLayout'
 import Loading from '../../components/Loading'
-import ModelSizes from '../../components/ModelSizes'
-import NewsSection from '../../components/NewsSection'
-import Link from 'next/link'
-import ContentfulImage from '../../components/ContentfulImage'
 import React from 'react'
 import ModelsSection from '../../components/ModelsSection'
+import SectionTitle from '../../components/SectionTitle'
 
 export default function News ({ preview = false, item = null, models = [] }) {
 
@@ -23,12 +20,16 @@ export default function News ({ preview = false, item = null, models = [] }) {
     }
     let modelsComponent = null
     if (models.length) {
-        modelsComponent = <ModelsSection models={models} title={'Featured models:'}></ModelsSection>
+        modelsComponent = <div>
+            <SectionTitle>Models: </SectionTitle>
+            <ModelsSection models={models}></ModelsSection>
+        </div>
     }
 
     return <SideLayout preview={preview}
                        images={item.imagesCollection.items}
                        galleryLayout={item.galleryLayout}
+                       date={item.date}
                        title={item.title}
                        content={item.content}
                        bottom={modelsComponent}/>

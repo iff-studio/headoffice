@@ -1,4 +1,4 @@
-import SideTitle from './SideTitle'
+
 import Link from 'next/link'
 import ContentfulImage from './ContentfulImage'
 import ModelSizes from './ModelSizes'
@@ -12,8 +12,8 @@ export default function ModelsSection ({ title, models = [], intro = null }) {
             {intro}
         </div>
     }
-    return <div className="border border-transparent position relative clearfix -mt-0.5">
-        <SideTitle>{title}</SideTitle>
+    return <div className="position relative clearfix px-4">
+
         {intro}
         {models.map(function (model, key) {
             let { url = null } = model.mainImage ?? {}
@@ -23,7 +23,7 @@ export default function ModelsSection ({ title, models = [], intro = null }) {
             }
 
             return <Link href={`/models/${model.slug}`} key={key}
-                         className={itemClasses + ' pb-[3.5rem] border border-transparent border-fix'}>
+                         className={itemClasses + ' pb-[3.5rem] '}>
 
                 <ContentfulImage {...{ src: url ?? PLACEHOLDER, width: 1600, height: 2000, alt: '' }}/>
                 <div

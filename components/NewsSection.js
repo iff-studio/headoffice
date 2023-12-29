@@ -1,7 +1,6 @@
 import CoverImage from './CoverImage'
 import Link from 'next/link'
 import DateComponent from './DateComponent'
-import SideTitle from './SideTitle'
 import { PLACEHOLDER } from '../lib/placeholder'
 
 export default function NewsSection ({ news = [], title = 'News', hasLeading = true }) {
@@ -10,28 +9,31 @@ export default function NewsSection ({ news = [], title = 'News', hasLeading = t
         return null
     }
 
-    return <section className={'relative -mt-0.5 border border-transparent clearfix'}>
-        <SideTitle>{title}</SideTitle>
+    news = [...news, ...news, ...news]
+
+    return <section className={'relative clearfix'}>
+
         {news.map((post, key) => {
             return (
                 <div key={post.slug}
-                     className={`border border-transparent border-fix float-left w-full md:flex md:items-stretch`}>
-                    <div className="md:w-1/2 md:float-left py-4 md:py-12">
-                        <div className="md:w-8/12 mx-auto">
+                     className={` w-full md:flex md:items-stretch ${key % 2 ? 'md:flex-row-reverse' : ''}`}>
+                    <div className={`md:w-1/2 ${key % 2 === 0 ? 'md:float-left' : 'md:float-right'}`}>
+                        <div className={key % 2 ? 'md:pr-4':'md:pl-4'}>
                             <CoverImage title={post.title} slug={post.slug} url={post.coverImage?.url ?? PLACEHOLDER}
                                         alt=""/>
                         </div>
                     </div>
-                    <div className="md:w-1/2 md:float-left">
-                        <div className="md:w-8/12 mx-auto h-full md:flex">
-                            <h3 className="text-3xl mb-1 leading-snug">
+                    <div className={`md:w-1/2 ${key % 2 === 0 ? 'md:float-left' : 'md:float-right'}`}>
+                        <div className="lg:w-8/12 mx-auto h-full md:flex md:flex-col justify-center px-4">
+                            <div className="text-sm">
+                                <DateComponent dateString={post.date}/>
+                            </div>
+                            <h3 className="text-3xl leading-tight mb-6 tracking-normal">
                                 <Link href={`/news/${post.slug}`} className="hover:underline">
                                     {post.title}
                                 </Link>
                             </h3>
-                            <div className="text-lg mb-6">
-                                <DateComponent dateString={post.date}/>
-                            </div>
+
                             <p className="text-lg leading-relaxed">{post.excerpt}</p>
                         </div>
                     </div>

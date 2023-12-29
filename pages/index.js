@@ -2,12 +2,12 @@ import Layout from '../components/Layout'
 import { getAllByType } from '../lib/api'
 import Head from 'next/head'
 import { META_TITLE_SUFFIX } from '../lib/constants'
-import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { each, map, mapObjectToArray } from '../lib/helpers'
 import ModelsSection from '../components/ModelsSection'
 import Fuse from 'fuse.js'
 import debounce from '../lib/debounce'
+import Loading from '../components/Loading'
 
 function generateEqualFunction (name, value) {
     return function (model) {
@@ -29,7 +29,7 @@ function generateSearchFunction (models, query) {
         }
     }
 
-    let fuse = new Fuse(models, { keys: ['name'] })
+    let fuse = new Fuse(models, { keys: ['name'], threshold: 0.5 })
     let results = fuse.search(query).map(function ({ item }) {
         return item.slug
     })
@@ -65,7 +65,7 @@ function renderUrl (query) {
         parts.push(`${varName}=${query[varName]}`)
     })
 
-    return `${location.pathname}?${parts.join('&')}`
+    return `${window.location.pathname}?${parts.join('&')}`
 }
 
 function castQuery (query) {
@@ -95,6 +95,10 @@ export default function Index ({ preview, models }) {
     const title = `Models ${META_TITLE_SUFFIX}`
     const router = useRouter()
 
+    if (router.isFallback) {
+        return <Loading/>
+    }
+
     const currentFilters = Object.assign({
         gender: null,
         search: '',
@@ -104,11 +108,11 @@ export default function Index ({ preview, models }) {
     const setCurrentFilters = function (query) {
         router.push(
             {
-                pathname: location.pathname,
+                pathname: window.location.pathname,
                 query: query,
             },
             renderUrl(query),
-            {shallow:true}
+            { shallow: true }
         )
     }
     const cities = [...new Set(models.map(function (m) {
@@ -205,25 +209,27 @@ export default function Index ({ preview, models }) {
                             {mapObjectToArray(filters, (options, filterName) => {
 
                                 if (filterName === 'search') {
-                                    return <div className={'relative'} key={filterName + 'search'}>
-                                        <input key={currentFilters.search === '' ? 'empty' : 'search'}
-                                               autoFocus={true}
-                                               className={'2xl:pl-0 px-4 pb-2 pt-2 outline-none w-full'}
-                                               placeholder={'Type name'}
-                                               defaultValue={currentFilters.search}
-                                               onChange={debouncedSearchChange}/>
-                                        {currentFilters.search !== '' ?
-                                            <button
-                                                className={'w-16 absolute top-0 right-0 bottom-0 border-l-2 border-transparent'}
-                                                onClick={() => {
-                                                    setCurrentFilters({ ...currentFilters, search: '' })
-                                                }}>X</button> :
-                                            null
-                                        }
+                                    return <div className={' pr-4 pb-4'}  key={filterName + 'search'}>
+                                        <div className={'relative'}>
+                                            <input key={currentFilters.search === '' ? 'empty' : 'search'}
+                                                   autoFocus={true}
+                                                   className={'p-4 outline-none w-full bg-gray-100'}
+                                                   placeholder={'Type name'}
+                                                   defaultValue={currentFilters.search}
+                                                   onChange={debouncedSearchChange}/>
+                                            {currentFilters.search !== '' ?
+                                                <button
+                                                    className={'w-10 -mt-1 absolute top-0 right-0 bottom-0'}
+                                                    onClick={() => {
+                                                        setCurrentFilters({ ...currentFilters, search: '' })
+                                                    }}>x</button> :
+                                                null
+                                            }
+                                        </div>
                                     </div>
                                 }
 
-                                return <div className={'2xl:pl-0 px-4 py-2'} key={filterName}>
+                                return <div className={'2xl:pl-0 pr-4 pb-4'} key={filterName}>
                                     {options.map(function (option, index) {
                                         return <span
                                             key={filterName + option.value}
