@@ -1,4 +1,5 @@
 export default function ModelSizes ({ model, className }) {
+
     let measurements = [
 
         {
@@ -26,25 +27,27 @@ export default function ModelSizes ({ model, className }) {
             key: 'shoe',
             sign: ' UK'
         },
-    ];
-    let heightText = '';
-    let heightCM = 0;
+    ]
+    let heightText = ''
+    let heightCM = 0
 
-    if(model.heightFeet){
-        heightCM = model.heightFeet * 30.48;
-        if(model.heightInches){
-            heightCM += model.heightInches * 2.54;
+    if (model.heightFeet) {
+        heightCM = model.heightFeet * 30.48
+        if (model.heightInches) {
+            heightCM += model.heightInches * 2.54
         }
-        if(heightCM){
-            heightText = `Height: ${model.heightFeet}'${model.heightInches?(model.heightInches+'″'):''} / ${Math.floor(heightCM)}cm`
+        if (heightCM) {
+            heightText = `Height: ${model.heightFeet}'${model.heightInches ? (model.heightInches + '″') : ''} / ${Math.floor(heightCM)}cm`
         }
 
     }
 
     {model.heightFeet && `Height: ${model.heightFeet}'${model.heightInches || ''}`}
     return <div className={className + ' clearfix'}>
+        <div>{model.city.name}</div>
         <div
             className="">{heightText}</div>
+
         {measurements.map((measurement, key) => {
             let val = model[measurement.key]
             if (!val) {
@@ -60,5 +63,6 @@ export default function ModelSizes ({ model, className }) {
             </div>
 
         })}
+
     </div>
 }

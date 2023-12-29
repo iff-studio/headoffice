@@ -5,7 +5,7 @@
 /* purgecss end ignore */
 @tailwind utilities;
 
-.clearfix:after {
+.clearfix:after, .cf:after {
     content: "";
     display: table;
     clear: both;
@@ -41,3 +41,4 @@
         margin: 0 -2px;
     }
 }
+

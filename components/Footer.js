@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
-import { SubscribeContext } from '../contexts/SubscribeProvider'
+
 import jsonp from 'jsonp'
-import footerStyles from './footer.module.css'
+
 
 const url = '//headofficemgmt.us14.list-manage.com/subscribe/post-json?u=eb60cbb9850faa8e42621d903&amp;id=a3b92b7385'
 
@@ -78,7 +78,7 @@ export default function Footer () {
     return <footer id={'footer'}>
         <div className="pt-[3.125rem]"></div>
         <div className={'border-t-2 z-10 fixed bottom-0 left-0 right-0 bg-white border-black'}>
-            <div className={`mx-auto z-10 border-l-2 transition-margin border-solid border-transparent ${status === STATUS.SUCCESS ? '-mb-[3.25rem]' : ''}`}>
+            <div className={`mx-auto z-10 border-l-2 transition-margin border-solid border-transparent ${status === STATUS.SUCCESS ? '-mb-[3.7rem]' : ''}`}>
                 {displayInput && <form onSubmit={submit}
                                        action="https://headofficemgmt.us14.list-manage.com/subscribe/post"
                                        method="post"

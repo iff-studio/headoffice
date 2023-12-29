@@ -2,29 +2,28 @@ import Layout from '../components/Layout'
 import { getAllByType } from '../lib/api'
 import Head from 'next/head'
 import { META_TITLE_SUFFIX } from '../lib/constants'
-import Link from 'next/link'
-import ContentfulImage from '../components/ContentfulImage'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { each, map, mapObjectToArray } from '../lib/helpers'
-import Loading from '../components/Loading'
 import ModelsSection from '../components/ModelsSection'
 import Fuse from 'fuse.js'
 import debounce from '../lib/debounce'
 
 function generateEqualFunction (name, value) {
     return function (model) {
-        if (Array.isArray(value)) {
-            return typeof model[name] !== 'undefined' && value.includes(model[name])
-        }
         return typeof model[name] !== 'undefined' && model[name] === value
+    }
+}
+
+function generateCityFunction (value) {
+    return function (model) {
+        return typeof model.city.name !== 'undefined' && model.city.name === value
     }
 }
 
 function generateSearchFunction (models, query) {
 
     if (query === null || query.trim() === '') {
-
         return function () {
             return true
         }
@@ -41,9 +40,8 @@ function generateSearchFunction (models, query) {
 }
 
 const SINGLE = 'single'
-const MULTIPLE = 'multiple'
 const SEARCH = 'search'
-const FILTER_BEHAVIOUR = { search: SEARCH, gender: SINGLE }
+const FILTER_BEHAVIOUR = { search: SEARCH, gender: SINGLE, city: SINGLE }
 
 /**
  * Kind of like URlSearchParams but removes empties
@@ -67,7 +65,7 @@ function renderUrl (query) {
         parts.push(`${varName}=${query[varName]}`)
     })
 
-    return `?${parts.join('&')}`
+    return `${location.pathname}?${parts.join('&')}`
 }
 
 function castQuery (query) {
@@ -82,12 +80,7 @@ function castQuery (query) {
                 filteredQuery[key] = parsed
             }
         }
-        if (FILTER_BEHAVIOUR[key] === MULTIPLE && Array.isArray(val)) {
-            const parsed = val.map(x => parseInt(x)).filter(x => Number.isInteger(x))
-            if (parsed.length) {
-                filteredQuery[key] = parsed
-            }
-        }
+
         if (FILTER_BEHAVIOUR[key] === SEARCH) {
             filteredQuery[key] = val
         }
@@ -97,9 +90,30 @@ function castQuery (query) {
 
 export default function Index ({ preview, models }) {
 
-    const title = `News ${META_TITLE_SUFFIX}`
+    models = models.slice(0)
+
+    const title = `Models ${META_TITLE_SUFFIX}`
     const router = useRouter()
-    const currentFilters = Object.assign({ gender: null, search: '' }, castQuery(router.query))
+
+    const currentFilters = Object.assign({
+        gender: null,
+        search: '',
+        city: null
+    }, castQuery(router.query))
+
+    const setCurrentFilters = function (query) {
+        router.push(
+            {
+                pathname: location.pathname,
+                query: query,
+            },
+            renderUrl(query),
+            {shallow:true}
+        )
+    }
+    const cities = [...new Set(models.map(function (m) {
+        return m?.city?.name ?? null
+    }))].filter((r) => !!r)
 
     const FILTER_OPTIONS = {
         search: [
@@ -114,7 +128,7 @@ export default function Index ({ preview, models }) {
             {
                 value: null,
                 label: 'All',
-                filter: generateEqualFunction('gender', ['He', 'She', 'They']),
+                filter: null,
             },
             {
                 value: 1,
@@ -131,82 +145,43 @@ export default function Index ({ preview, models }) {
                 label: 'They',
                 filter: generateEqualFunction('gender', 'They'),
             }
+        ],
+        city: [
+            {
+                value: null,
+                label: 'All',
+                filter: null,
+            },
+            ...cities.map(function (city, i) {
+                return {
+                    value: i + 1,
+                    label: city,
+                    filter: generateCityFunction(city),
+                }
+            })
         ]
-    }
-
-    if (router.isFallback) {
-        return <Loading/>
-    }
-
-    models = models.slice()
-
-    function getLinkAndState (filterName, value) {
-        let type = FILTER_BEHAVIOUR[filterName]
-        let active = false
-        let newQuery = Object.assign({}, currentFilters)
-
-        if (type === SINGLE) {
-            active = currentFilters[filterName] === value
-            newQuery[filterName] = active ? null : value
-        }
-        if (type === MULTIPLE) {
-            active = currentFilters[filterName].includes(value)
-            if (active) {
-                newQuery[filterName] = currentFilters[filterName].filter(x => x !== value)
-            } else {
-                newQuery[filterName].push(value)
-            }
-        }
-
-        if (type === SEARCH) {
-            active = currentFilters[SEARCH] === value
-            newQuery[filterName] = value
-        }
-
-        return [renderUrl(newQuery), active]
     }
 
     /**
      * Add links and active states
      */
-    let filters = map(FILTER_OPTIONS, (options, filterName) => {
+    let filters = map(FILTER_OPTIONS, (options, type) => {
         return options.map(function (option) {
-            let [link, active] = getLinkAndState(filterName, option.value)
-            return {
-                ...option,
-                ...{ link, active }
-            }
+            return { ...option, active: currentFilters[type] === option.value }
         })
     })
-
     /**
      * filter models
      */
     each(filters, function (options, filterName) {
+
         if (FILTER_BEHAVIOUR[filterName] === SINGLE) {
             for (let option of options) {
-                if (option.active) {
+                if (option.active && option.filter) {
                     models = models.filter(option.filter)
                     return
                 }
             }
-        }
-
-        if (FILTER_BEHAVIOUR[filterName] === MULTIPLE) {
-            let func = []
-
-            options.forEach(function (option) {
-                if (option.active) {
-                    func.push(option.filter)
-                }
-            })
-
-            models = models.filter(function (model) {
-                for (let filter of func) {
-                    return filter(model)
-                }
-                return false
-            })
         }
 
         if (FILTER_BEHAVIOUR[filterName] === SEARCH) {
@@ -216,9 +191,8 @@ export default function Index ({ preview, models }) {
     })
 
     let debouncedSearchChange = debounce(function (e) {
-        router.push(getLinkAndState('search', e.target.value)[0])
-    }, 100)
-
+        setCurrentFilters({ ...currentFilters, search: e.target.value })
+    }, 200)
     return (
         <>
             <Head>
@@ -229,34 +203,43 @@ export default function Index ({ preview, models }) {
                     <ModelsSection intro={
                         <div className={'clearfix bg-white'}>
                             {mapObjectToArray(filters, (options, filterName) => {
-                                return options.map(function (option) {
-                                    let itemClasses = 'border border-transparent block border-fix'
-                                    if (option.type === 'search') {
-                                        return <div className={itemClasses + ' relative'} key={filterName + 'search'}>
-                                            <input key={currentFilters.search === '' ? 'empty' : 'search'}
-                                                   autoFocus={true}
-                                                   className={'2xl:pl-0 p-4 outline-none w-full'}
-                                                   placeholder={'Type name'}
-                                                   defaultValue={currentFilters.search}
-                                                   onChange={debouncedSearchChange}/>
-                                            {currentFilters.search !== '' ?
-                                                <button
-                                                    className={'w-16 absolute top-0 right-0 bottom-0 border-l-2 border-transparent'}
-                                                    onClick={() => {
-                                                        router.push(getLinkAndState('search', '')[0])
-                                                    }}>X</button> :
-                                                null
-                                            }
-                                        </div>
-                                    }
-                                    return <div
-                                        className={itemClasses + (option.active ? '' : '')}
-                                        key={filterName + option.value}>
-                                        <Link className={'2xl:pl-0 p-4 block relative'} href={option.link}>
-                                            {option.label}
-                                        </Link>
+
+                                if (filterName === 'search') {
+                                    return <div className={'relative'} key={filterName + 'search'}>
+                                        <input key={currentFilters.search === '' ? 'empty' : 'search'}
+                                               autoFocus={true}
+                                               className={'2xl:pl-0 px-4 pb-2 pt-2 outline-none w-full'}
+                                               placeholder={'Type name'}
+                                               defaultValue={currentFilters.search}
+                                               onChange={debouncedSearchChange}/>
+                                        {currentFilters.search !== '' ?
+                                            <button
+                                                className={'w-16 absolute top-0 right-0 bottom-0 border-l-2 border-transparent'}
+                                                onClick={() => {
+                                                    setCurrentFilters({ ...currentFilters, search: '' })
+                                                }}>X</button> :
+                                            null
+                                        }
                                     </div>
-                                })
+                                }
+
+                                return <div className={'2xl:pl-0 px-4 py-2'} key={filterName}>
+                                    {options.map(function (option, index) {
+                                        return <span
+                                            key={filterName + option.value}
+                                            className={'pr-1'}>
+                                            <button
+                                                className={`inline-block pr-1 relative ${option.active ? 'underline' : ''}`}
+                                                onClick={() => {
+                                                    setCurrentFilters({ ...currentFilters, [filterName]: option.value })
+                                                }}>
+                                            {option.label}
+                                        </button>
+                                            {index !== options.length - 1 ? '/' : ''}
+                                        </span>
+                                    })}
+                                </div>
+
                             })}
                         </div>
                     } models={models}></ModelsSection>
