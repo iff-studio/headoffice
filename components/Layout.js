@@ -12,7 +12,7 @@ export default function Layout ({ preview, children }) {
         <>
             <Meta/>
             <div className="min-h-screen">
-                <div className="sm:pt-[4.5rem]"></div>
+                <div className="pt-[7rem] sm:pt-[4.5rem]"></div>
                 <nav
                     className="wrap z-10 fixed top-0 left-0 right-0 bg-white">
                     <ul className={'mx-auto clearfix py-4 px-2'}>
@@ -23,7 +23,6 @@ export default function Layout ({ preview, children }) {
                             <Link className={'inline-block p-2 uppercase ' + (router.asPath === '/contact' ? activeClasses : '')}
                                   href={'/contact'}>Contact</Link>
                         </li>
-
                         <li className={'block float-left sm:float-right'}>
                             <Link className={'inline-block p-2 uppercase ' + (router.asPath === '/news' ? activeClasses : '')} href={'/news'}>News</Link>
                         </li>

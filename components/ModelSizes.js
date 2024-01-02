@@ -44,7 +44,7 @@ export default function ModelSizes ({ model, className }) {
 
     {model.heightFeet && `Height: ${model.heightFeet}'${model.heightInches || ''}`}
     return <div className={className + ' clearfix'}>
-        <div>City: {model.city.name}</div>
+
         <div
             className="">{heightText}</div>
 
@@ -63,6 +63,6 @@ export default function ModelSizes ({ model, className }) {
             </div>
 
         })}
-
+        <div>Location: {model.city.name}</div>
     </div>
 }

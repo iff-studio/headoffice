@@ -26,8 +26,8 @@ export default function SideLayout ({
         }
         <Layout preview={preview}>
             <div className="sm:flex sm:flex-row-reverse sm:items-stretch">
-                <div className="sm:w-1/2 md:w-1/3 lg:w-5/12 px-4 pt-8 pb-4 bg-white">
-                    <div className={'lg:mx-auto lg:w-1/2'}>
+                <div className="sm:w-1/2 md:w-1/3 lg:w-5/12 pb-4 bg-white">
+                    <div className={'lg:mx-auto lg:w-1/2 sm:sticky md:top-[4.5rem] px-4 pt-8'}>
                     {date &&
                         <div className="text-sm">
                             <DateComponent dateString={date}/>

@@ -209,11 +209,11 @@ export default function Index ({ preview, models }) {
                             {mapObjectToArray(filters, (options, filterName) => {
 
                                 if (filterName === 'search') {
-                                    return <div className={'pr-4 pb-4'}  key={filterName + 'search'}>
+                                    return <div className={'sm:pr-4 pb-4'}  key={filterName + 'search'}>
                                         <div className={'relative'}>
                                             <input key={currentFilters.search === '' ? 'empty' : 'search'}
                                                    autoFocus={true}
-                                                   className={'p-4 outline-none w-full bg-gray-100'}
+                                                   className={'p-4 outline-none w-full bg-gray-100 w-full'}
                                                    placeholder={'Type name'}
                                                    defaultValue={currentFilters.search}
                                                    onChange={debouncedSearchChange}/>
