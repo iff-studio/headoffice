@@ -5,7 +5,7 @@ import React from 'react'
 import { PLACEHOLDER } from '../lib/placeholder'
 
 export default function ModelsSection ({ title, models = [], intro = null }) {
-    let itemClasses = 'relative group w-full sm:w-1/2 md:w-1/3 lg:w-1/4 sm:float-left'
+    let itemClasses = 'relative block group w-full sm:w-1/2 md:w-1/3 lg:w-1/4 sm:float-left'
     if (intro) {
         intro = <div className={itemClasses}>
             {intro}
@@ -28,8 +28,8 @@ export default function ModelsSection ({ title, models = [], intro = null }) {
                     <ContentfulImage {...{ src: url ?? PLACEHOLDER, width: 1600, height: 2000, alt: '' }}/>
                     <div
                         className="absolute p-4 bottom-0 right-0 left-0 bg-black transition-background text-white">
-                        <ModelSizes model={model} className="pb-8 hidden group-hover:block"/>
-                        <h4 className={'uppercase font-bold'}>
+                        <ModelSizes model={model} className="pb-8 hidden md:group-hover:block"/>
+                        <h4 className={'uppercase font-bold w-full'}>
                             {model.name}
                         </h4>
                     </div>
