@@ -22,11 +22,11 @@ export default function NewsSection ({ news = [], title = 'News', hasLeading = t
                         </div>
                     </div>
                     <div className={`md:w-1/2 ${key % 2 === 0 ? 'md:float-left' : 'md:float-right'}`}>
-                        <div className="lg:w-8/12 mx-auto h-full md:flex md:flex-col justify-center p-4">
+                        <div className="lg:w-8/12 mx-auto h-full md:flex md:flex-col justify-center px-4 py-8">
                             <div className="text-sm">
                                 <DateComponent dateString={post.date}/>
                             </div>
-                            <h3 className="text-3xl leading-tight mb-6 tracking-normal">
+                            <h3 className="text-3xl leading-tight mb-4 md:mb-6 tracking-normal">
                                 <Link href={`/news/${post.slug}`} className="hover:underline">
                                     {post.title}
                                 </Link>
