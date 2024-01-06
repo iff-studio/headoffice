@@ -60,7 +60,6 @@ export default function Gallery ({ images = [], galleryLayout = '' }) {
     images.forEach(function (image) {
         gallery.push({ type: 'image', 'image': image, layout: 2 })
     })
-
     /**
      * md:w-1/2
      * md:w-12/12
@@ -69,7 +68,7 @@ export default function Gallery ({ images = [], galleryLayout = '' }) {
      * md:w-1/5
      * */
     return <div className={'clearfix'}>
-        {gallery.length && gallery.map(function (item, key) {
+        {gallery.map(function (item, key) {
                 let content = null
                 if (item.type === 'image') {
                     content = <img

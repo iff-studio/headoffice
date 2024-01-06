@@ -43,7 +43,7 @@ export default function SideLayout ({
                     </div>
                 </div>
                 <div className={'flex-1 px-4'}>
-                    {images.length && <Gallery images={images} galleryLayout={galleryLayout || ''}></Gallery>}
+                    {<Gallery images={images} galleryLayout={galleryLayout || ''}></Gallery>}
                 </div>
 
             </div>

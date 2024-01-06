@@ -27,7 +27,7 @@ export default function News ({ preview = false, item = null, models = [] }) {
     }
 
     return <SideLayout preview={preview}
-                       images={item.imagesCollection.items}
+                       images={item.imagesCollection.items ?? []}
                        galleryLayout={item.galleryLayout}
                        date={item.date}
                        title={item.title}
