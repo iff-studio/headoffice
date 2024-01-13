@@ -1,7 +1,5 @@
-
 export default async function handler (req, res) {
     let inboundRevalToken = req.headers['x-vercel-reval-key']
-
 
     if (!inboundRevalToken) {
         return res
@@ -12,7 +10,7 @@ export default async function handler (req, res) {
     }
 
     try {
-
+        console.log(req.body)
         const postSlug = req.body.fields.slug['en-US']
         const postType = req.body.sys.contentType.sys.id
         let urls = []
