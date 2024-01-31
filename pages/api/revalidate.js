@@ -11,9 +11,9 @@ export default async function handler (req, res) {
 
     try {
 
-        const postSlug = req.body.fields.slug['en-US'] ?? null;
+        const postSlug = req.body?.fields?.slug?.['en-US'] ?? null;
 
-        if(!postSlug){
+        if (!postSlug) {
             return res.json({ revalidated: false, postSlug })
         }
 
