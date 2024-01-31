@@ -11,7 +11,7 @@ export default async function handler (req, res) {
 
     try {
 
-        const postSlug = req.body?.fields?.slug?.['en-US'] ?? null;
+        const postSlug = req.body?.fields?.slug?.['en-US'] ?? null
 
         if (!postSlug) {
             return res.json({ revalidated: false, postSlug })
@@ -19,7 +19,7 @@ export default async function handler (req, res) {
 
         const postType = req.body.sys.contentType.sys.id
 
-        console.log(req.body.sys.contentType, req.body.fields.models)
+        console.log(req.body.sys.contentType, req.body.fields?.models?.['en-US'] ?? null)
 
         let urls = []
 
