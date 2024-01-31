@@ -10,9 +10,17 @@ export default async function handler (req, res) {
     }
 
     try {
-        console.log(req.body)
-        const postSlug = req.body.fields.slug['en-US']
+
+        const postSlug = req.body.fields.slug['en-US'] ?? null;
+
+        if(!postSlug){
+            return res.json({ revalidated: false, postSlug })
+        }
+
         const postType = req.body.sys.contentType.sys.id
+
+        console.log(req.body.sys.contentType, req.body.fields.models)
+
         let urls = []
 
         if (postType === 'model') {
