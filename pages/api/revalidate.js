@@ -37,6 +37,7 @@ export default async function handler (req, res) {
             urls.push(`/${postSlug}`)
         }
 
+
         let promises = urls.map((url) => {
             return res.revalidate(url)
         })
