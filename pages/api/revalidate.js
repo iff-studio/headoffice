@@ -1,4 +1,4 @@
-import { getAllByType } from '../../lib/api'
+import { getAllByType, getPostModelsSlugs } from '../../lib/api'
 
 export default async function handler (req, res) {
     let inboundRevalToken = req.headers['x-vercel-reval-key']
@@ -34,13 +34,10 @@ export default async function handler (req, res) {
             urls.push(`/news/${postSlug}`)
             urls.push(`/news`)
 
-            let models = await getAllByType('model')
-            console.log(models);
-            let ids = (req.body.fields?.models?.['en-US'] ?? []).map((model) => model.sys.id)
+            let models = await getPostModelsSlugs(postSlug)
+
             models.forEach((model) => {
-                if (ids.includes(model.sys.id)) {
-                    urls.push(`/models/${model.slug}`)
-                }
+                    urls.push(`/models/${model}`)
             })
         }
 
