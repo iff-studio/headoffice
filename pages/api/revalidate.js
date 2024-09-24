@@ -1,3 +1,5 @@
+import { getAllByType } from '../../lib/api'
+
 export default async function handler (req, res) {
     let inboundRevalToken = req.headers['x-vercel-reval-key']
 
