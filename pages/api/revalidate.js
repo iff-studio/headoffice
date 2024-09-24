@@ -35,6 +35,7 @@ export default async function handler (req, res) {
             urls.push(`/news`)
 
             let models = await getPostModelsSlugs(postSlug)
+            console.log(models);
 
             models.forEach((model) => {
                     urls.push(`/models/${model}`)
