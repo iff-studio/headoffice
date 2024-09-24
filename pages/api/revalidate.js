@@ -35,6 +35,7 @@ export default async function handler (req, res) {
             urls.push(`/news`)
 
             let models = await getAllByType('model')
+            console.log(models);
             let ids = (req.body.fields?.models?.['en-US'] ?? []).map((model) => model.sys.id)
             models.forEach((model) => {
                 if (ids.includes(model.sys.id)) {
