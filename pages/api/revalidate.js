@@ -19,7 +19,7 @@ export default async function handler (req, res) {
 
         const postType = req.body.sys.contentType.sys.id
 
-        console.log(req.body.sys.contentType, req.body.fields?.models?.['en-US'] ?? null)
+        //console.log(req.body.sys.contentType, )
 
         let urls = []
 
@@ -31,19 +31,26 @@ export default async function handler (req, res) {
         if (postType === 'post') {
             urls.push(`/news/${postSlug}`)
             urls.push(`/news`)
+
+            let models = await getAllByType('model')
+            let ids = (req.body.fields?.models?.['en-US'] ?? []).map((model) => model.sys.id)
+            models.forEach((model) => {
+                if (ids.includes(model.sys.id)) {
+                    urls.push(`/models/${model.slug}`)
+                }
+            })
         }
 
         if (postType === 'page') {
             urls.push(`/${postSlug}`)
         }
 
-
         let promises = urls.map((url) => {
             return res.revalidate(url)
         })
 
         let results = await Promise.all(promises)
-
+        console.log({ revalidated: true, postSlug, postType, urls, results })
         return res.json({ revalidated: true, postSlug, postType, urls, results })
     } catch (err) {
         console.log(err)

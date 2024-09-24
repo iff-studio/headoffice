@@ -25,12 +25,12 @@ export default function ModelSizes ({ model, className }) {
         {
             label: 'Shoe',
             key: 'shoe',
+            type: 'shoe',
             sign: ' UK'
         },
     ]
     let heightText = ''
     let heightCM = 0
-
     if (model.heightFeet) {
         heightCM = model.heightFeet * 30.48
         if (model.heightInches) {
@@ -55,6 +55,10 @@ export default function ModelSizes ({ model, className }) {
             }
 
             let text = `${measurement.label}: ${val}${measurement.sign}`
+            if(measurement.type === 'shoe' && model.shoeEu) {
+                text += ` / ${model.shoeEu} EU`;
+
+            }
             if (measurement.type === 'inch') {
                 text += ` / ${Math.ceil(val * 2.54)}cm`
             }
